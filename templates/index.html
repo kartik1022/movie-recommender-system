@@ -1,1 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Movie Recommendations</h1>
 
+    <form method="post" action="/">
+        <label for="emotion">Enter emotion:</label>
+        <input type="text" id="emotion" name="emotion" required>
+        
+        <label for="min_year">Minimum Year:</label>
+        <input type="number" id="min_year" name="min_year">
+        
+        <label for="max_year">Maximum Year:</label>
+        <input type="number" id="max_year" name="max_year">
+        
+        <label for="min_rating">Minimum Rating:</label>
+        <input type="number" step="0.1" id="min_rating" name="min_rating">
+
+        <label for="user_rating">Enter your rating (0-10):</label>
+        <input type="number" step="0.1" id="user_rating" name="user_rating">
+
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if scatter_plot %}
+        <h2>Scatter Plot for {{ emotion }}</h2>
+        {{ scatter_plot|safe }}
+    {% endif %}
+
+    {% if bar_chart %}
+        <h2>Bar Chart for {{ emotion }}</h2>
+        {{ bar_chart|safe }}
+    {% endif %}
+
+    {% if recommendations %}
+        <h2>Recommended movies for {{ emotion }} with similarity scores:</h2>
+        <ul>
+            {% for movie in recommendations %}
+                <li>{{ movie.title }} ({{ movie.year }}) - Rating: {{ movie.rating }} - Similarity Score: {{ movie.similarity_score }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
